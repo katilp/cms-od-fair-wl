@@ -11,13 +11,12 @@ jobs:
           whoami
           pwd
           mkdir mydata
-      
-      - name: List data
-        continue-on-error: true
-        run: ls -l mydata
 
       - name: Get data
         run: echo "This is in the file" > mydata/somedata
 
-      - name: Do something with data
+      - name: List data
+        run: ls -l mydata
+
+      - name: Use data
         run: cat mydata/somedata

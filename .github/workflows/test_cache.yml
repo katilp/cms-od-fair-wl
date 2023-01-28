@@ -12,8 +12,8 @@ jobs:
         env:
           cache-name: cache-data
         with:
-          # cache files in /data (not clear if this needs to be created or if it created by the action)
-          path: /data
+          # cache files in /mydata (not clear if this needs to be created or if it created by the action)
+          path: /mydata
           key: ${{ runner.os }}-build-${{ env.cache-name }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -23,10 +23,10 @@ jobs:
       - if: ${{ steps.cache-data.outputs.cache-hit != 'true' }}
         name: List data
         continue-on-error: true
-        run: ls -l /data
+        run: ls -l /mydata
 
       - name: Get data
-        run: echo "This is in the file" > /data/somedata
+        run: echo "This is in the file" > /mydata/somedata
 
       - name: Do something with data
-        run: cat /data/somedata
+        run: cat /mydata/somedata

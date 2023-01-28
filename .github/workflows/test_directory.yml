@@ -10,17 +10,14 @@ jobs:
         run: |
           whoami
           pwd
-          ls -l /
-          ls -l /mnt
-          mkdir data
-          mkdir /mydata
+          mkdir mydata
       
       - name: List data
         continue-on-error: true
-        run: ls -l /mydata
+        run: ls -l mydata
 
       - name: Get data
-        run: echo "This is in the file" > /mydata/somedata
+        run: echo "This is in the file" > mydata/somedata
 
       - name: Do something with data
-        run: cat /mydata/somedata
+        run: cat mydata/somedata

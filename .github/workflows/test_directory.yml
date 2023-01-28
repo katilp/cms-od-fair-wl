@@ -11,21 +11,17 @@ jobs:
           mkdir mydata
 
 # I have not found out how to pass the volume with steps with "uses:" 
-# "volumes:" in the following has no effect
+# "volumes: mydata:/code" in the following has no effect (and is invalid)
 # Probably easiest to go back to brute force "docker run"...
       - name: Get the full metadata 
         uses: docker://cernopendata/cernopendata-client:0.3.0
         with:
           args: get-metadata --recid 24103
-        volumes: 
-          - mydata:/code
 
       - name: Download a file
         uses: docker://cernopendata/cernopendata-client:0.3.0
         with:
           args: download-files --recid 1002
-        volumes: 
-          - mydata:/code
 
       - name: Get data
         run: echo "This is in the file" > mydata/somedata

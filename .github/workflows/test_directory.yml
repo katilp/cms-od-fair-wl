@@ -1,0 +1,20 @@
+name: Directory as shared area
+on: push
+jobs:
+  test-dir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create dir
+        run: mkdir /data
+      
+      - name: List data
+        continue-on-error: true
+        run: ls -l /data
+
+      - name: Get data
+        run: echo "This is in the file" > /data/somedata
+
+      - name: Do something with data
+        run: cat /data/somedata

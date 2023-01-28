@@ -1,0 +1,32 @@
+name: Cache as shared area
+on: push
+jobs:
+  test-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache some data
+        id: cache-data
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-data
+        with:
+          # cache files in /data (not clear if this needs to be created or if it created by the action)
+          path: /data
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: ${{ steps.cache-data.outputs.cache-hit != 'true' }}
+        name: List data
+        continue-on-error: true
+        run: ls -l /data
+
+      - name: Get data
+        run: echo "This is in the file" > /data/somedata
+
+      - name: Do something with data
+        run: cat /data/somedata

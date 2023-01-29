@@ -23,7 +23,9 @@ jobs:
         run: |
           pwd
           ls -l
-          docker run --rm -v $PWD/mydata:/code cernopendata/cernopendata-client:0.3.0 download-files --recid 1002 --protocol xrootd
+          docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid 1002 --protocol xrootd
 
       - name: List data
-        run: ls -l mydata
+        run: | 
+          pwd
+          ls -l mydata

@@ -9,11 +9,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+## NB this worked with "path" cached-data and the file created with echo "This is data" > cached-data
+## in the next step. 
     - name: Cache data
       id: cache-data
       uses: actions/cache@v3
       with:
-        path: cached-data
+        path: | 
+          cached-data
+          metadata.json
         key: ${{ runner.os }}-cached-data
 
     - name: Generate data
@@ -22,9 +26,11 @@ jobs:
         pwd
         ls -l
         echo "This is data" > cached-data
+        docker run --rm cernopendata/cernopendata-client:0.3.0 get-metadata --recid 24103 > metadata.json
+        
 
     - name: List data
-      run: ls -l cached-data
+      run: ls -l 
 
     - name: Use data
       run: cat cached-data

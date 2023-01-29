@@ -21,7 +21,7 @@ jobs:
       - name: Download a file
         uses: docker://cernopendata/cernopendata-client:0.3.0
         with:
-          args: download-files --recid 1002
+          args: --workdir /code -v mydata:/code download-files --recid 1002
 
       - name: Get data
         run: echo "This is in the file" > mydata/somedata

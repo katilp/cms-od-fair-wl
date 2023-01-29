@@ -23,13 +23,7 @@ jobs:
         run: |
           pwd
           ls -l
-          docker run --rm -i -t -v $PWD/mydata:/code cernopendata/cernopendata-client:0.3.0 download-files --recid 1002 
-
-      - name: Get data
-        run: echo "This is in the file" > mydata/somedata
+          docker run --rm -v $PWD/mydata:/code cernopendata/cernopendata-client:0.3.0 download-files --recid 1002 --protocol xrootd
 
       - name: List data
         run: ls -l mydata
-
-      - name: Use data
-        run: cat mydata/somedata

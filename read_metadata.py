@@ -2,7 +2,7 @@ import json
 
 def main():
 
-    with open('metadata.json') as f:
+    with open('mydata/metadata.json') as f:
         data = f.read()
             
     # reconstructing the data as a dictionary

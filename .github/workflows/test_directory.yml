@@ -20,17 +20,20 @@ jobs:
           docker run --rm cernopendata/cernopendata-client:0.3.0 get-metadata --recid 24103 > mydata/metadata.json
           docker run --rm cernopendata/cernopendata-client:0.3.0 get-file-locations --recid 24103 --protocol xrootd> mydata/file-locations.json
 
+# Github runners have python so OK for now. This could be done in a python container.
       - name: Read parameters from metadata
         run: |
           python read_metadata.py > mydata/var.sh
 
+# This optional, only if type=Collision, or if VALI_RECID exists
+# Could be done with github variable but keep it bash for now...
       - name: Download a the validated runs file
         run: |
           pwd
           cat mydata/var.sh
           source mydata/var.sh
           echo $VALI_RECID
-          docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid $VALI_RECID --protocol xrootd
+          [ ! -z $VALI_RECID ] && docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid $VALI_RECID --protocol xrootd
 
       - name: List data
         run: | 

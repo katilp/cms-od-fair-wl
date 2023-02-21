@@ -1,5 +1,13 @@
 name: Directory as shared area
-on: push
+on: 
+  push:
+  workflow_dispatch:
+    inputs:
+      recid:
+        description: 'Record ID'
+        required: false
+        default: '24103' 
+        type: string
 jobs:
   test-dir:
     runs-on: ubuntu-latest
@@ -17,6 +25,7 @@ jobs:
         run: |
           pwd
           ls -l
+          echo ${{ inputs.recid }}
           docker run --rm cernopendata/cernopendata-client:0.3.0 get-metadata --recid 24103 > mydata/metadata.json
           docker run --rm cernopendata/cernopendata-client:0.3.0 get-file-locations --recid 24103 --protocol xrootd> mydata/file-locations.json
 

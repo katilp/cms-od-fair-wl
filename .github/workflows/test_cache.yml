@@ -1,6 +1,6 @@
 name: Caching data
 
-on: push
+on: workflow_dispatch
 
 jobs:
   test-cache:

@@ -22,14 +22,14 @@ jobs:
 
       - name: Read parameters from metadata
         run: |
-          which python
-          which python3
           python read_metadata.py > mydata/var.sh
 
       - name: Download a the validated runs file
         run: |
           pwd
+          cat mydata/var.sh
           source mydata/var.sh
+          echo $VALI_RECID
           docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid $VALI_RECID --protocol xrootd
 
       - name: List data

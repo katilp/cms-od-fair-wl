@@ -21,13 +21,14 @@ jobs:
 # I have not found out how to pass the volume with steps with "uses:" 
 # "volumes: mydata:/code" has no effect (and is invalid)
 # Going back to brute force "docker run"...
+# See how to get a global default for "push" action, here hard-coded to 24103 as input is not available for push
       - name: Get the full metadata 
         run: |
           pwd
           ls -l
-          echo ${{ inputs.recid }}
-          docker run --rm cernopendata/cernopendata-client:0.3.0 get-metadata --recid 24103 > mydata/metadata.json
-          docker run --rm cernopendata/cernopendata-client:0.3.0 get-file-locations --recid 24103 --protocol xrootd> mydata/file-locations.json
+          [ -z ${{ inputs.recid }} ] && this_recid=24103 || this_recid=${{ inputs.recid }}
+          docker run --rm cernopendata/cernopendata-client:0.3.0 get-metadata --recid $this_recid > mydata/metadata.json
+          docker run --rm cernopendata/cernopendata-client:0.3.0 get-file-locations --recid $this_recid --protocol xrootd> mydata/file-locations.json
 
 # Github runners have python so OK for now. This could be done in a python container.
       - name: Read parameters from metadata

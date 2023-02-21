@@ -43,7 +43,7 @@ jobs:
           cat mydata/var.sh
           source mydata/var.sh
           echo $VALI_RECID
-          [ ! -z $VALI_RECID ] && docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid $VALI_RECID --protocol xrootd
+          [ ! -z $VALI_RECID ] && docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid $VALI_RECID --protocol xrootd || echo "Skip for MC"
 
       - name: List data
         run: | 

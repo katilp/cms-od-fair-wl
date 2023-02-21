@@ -43,8 +43,8 @@ jobs:
       - name: Download a the validated runs file
         run: |
           pwd
-          cat mydata/var.sh
-          source mydata/var.sh
+          cat mydata/vars.sh
+          source mydata/vars.sh
           echo $VALI_RECID
           echo env.VALI_RECID
           echo env.FORMAT

@@ -33,7 +33,10 @@ jobs:
 # Github runners have python so OK for now. This could be done in a python container.
       - name: Read parameters from metadata
         run: |
-          python read_metadata.py > mydata/var.sh
+          python read_metadata.py > mydata/vars
+          vars=$(cat mydata/vars)
+          for var in $vars; do echo export $var; done > mydata/vars.sh
+          for var in $vars; do echo $var >> $GITHUB_ENV; done
 
 # This optional, only if type=Collision, or if VALI_RECID exists
 # Could be done with github variable but keep it bash for now...
@@ -43,6 +46,8 @@ jobs:
           cat mydata/var.sh
           source mydata/var.sh
           echo $VALI_RECID
+          echo env.VALI_RECID
+          echo env.FORMAT
           [ ! -z $VALI_RECID ] && docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid $VALI_RECID --protocol xrootd || echo "Skip for MC"
 
       - name: List data

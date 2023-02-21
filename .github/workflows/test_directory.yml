@@ -37,11 +37,12 @@ jobs:
           vars=$(cat mydata/vars)
           for var in $vars; do echo export $var; done > mydata/vars.sh
           for var in $vars; do echo $var >> $GITHUB_ENV; done
+          echo ${{ env.TYPE }}
 
 # This optional, only if type=Collision, or if VALI_RECID exists
 # Could be done with github variable but keep it bash for now...
       - name: Download a the validated runs file
-        if: env.TYPE == "Collision"
+        if: env.TYPE == 'Collision'
         run: |
           pwd
           cat mydata/vars.sh

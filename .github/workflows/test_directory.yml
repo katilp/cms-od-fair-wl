@@ -37,20 +37,21 @@ jobs:
           vars=$(cat mydata/vars)
           for var in $vars; do echo export $var; done > mydata/vars.sh
           for var in $vars; do echo $var >> $GITHUB_ENV; done
-          echo ${{ env.TYPE }}
+          echo ${{ env.TYPE }} # not set here yet, only in the next step!
 
-# This optional, only if type=Collision, or if VALI_RECID exists
-# Could be done with github variable but keep it bash for now...
+# This is conditional, only if TYPE=Collision, or if VALI_RECID exists
       - name: Download a the validated runs file
         if: env.TYPE == 'Collision'
         run: |
           pwd
-          cat mydata/vars.sh
-          source mydata/vars.sh
-          echo $VALI_RECID
+          # in plain bash, following 4 lines
+          # cat mydata/vars.sh
+          # source mydata/vars.sh
+          # echo $VALI_RECID
+          # [ ! -z $VALI_RECID ] && docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid $VALI_RECID --protocol xrootd || echo "Skip for MC"
+          # in github workflow, using variable in $GITHUB_ENV, i.e. env.VAR
           echo ${{ env.VALI_RECID }}
-          echo ${{ env.FORMAT }}
-          [ ! -z $VALI_RECID ] && docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid $VALI_RECID --protocol xrootd || echo "Skip for MC"
+          docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid ${{ env.VALI_RECID }} --protocol xrootd
 
       - name: List data
         run: | 

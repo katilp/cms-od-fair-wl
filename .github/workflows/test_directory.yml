@@ -59,8 +59,19 @@ jobs:
           echo ${{ env.VALI_RECID }}
           docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid ${{ env.VALI_RECID }} --protocol xrootd
 
+# Prepare the CMSSW configuration file
+      - name: Prepare the configuration
+        run: |
+          echo ${{ env.TYPE }}
+
+# Run the job
+      - name: Run the POET job
+        run: |
+          echo ${{ env.IMAGE }}
+
+
       - name: Compute cross-section
-        if: env.TYPE == "Simulated"
+        if: env.TYPE == 'Simulated'
         run: |
           # run x-sec analyzer
           

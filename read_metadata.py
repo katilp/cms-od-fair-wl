@@ -1,8 +1,10 @@
 import json
+import sys
 
 def main():
 
-    with open('mydata/metadata.json') as f:
+    filename = sys.argv[1]
+    with open(filename) as f:
         data = f.read()
             
     # reconstructing the data as a dictionary
@@ -19,8 +21,11 @@ def main():
     print("TYPE=" + type) #collision or simulated
     if type == "Collision": 
       print("VALI_RECID=" + all_meta['note']['links'][0]['recid']) #recid of validated runs file
-    print("FORMAT=" + all_meta['distribution']['formats'][0]) #this assumes alphabetical order, do better
-    #print(all_meta['files'][0]['uri']) #get these directly with cernopendata-client
+    formats = all_meta['distribution']['formats'] #array of formats
+    format=[f for f in formats if "aod" in f][0] #print first of all items with aod
+    print("FORMAT=" + format)
+    im_dict = all_meta['image'] #array of dicts
+    print("IMAGE=" + [im for im in im_dict if "docker.io" in im['name']][0]['name']) #print first of all items with a specified registry
 
 
 if __name__ == "__main__":

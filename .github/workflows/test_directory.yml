@@ -30,10 +30,16 @@ jobs:
           docker run --rm cernopendata/cernopendata-client:0.3.0 get-metadata --recid $this_recid > mydata/metadata.json
           docker run --rm cernopendata/cernopendata-client:0.3.0 get-file-locations --recid $this_recid --protocol xrootd> mydata/file-locations.json
 
+# Step for apply foreseen updates to the existing metadata, values are placeholders
+      - name: Merge updates from the local json 
+        run: |
+          jq -s add update.json mydata/metadata.json > mydata/merged.json
+
+
 # Github runners have python so OK for now. This could be done in a python container.
       - name: Read parameters from metadata
         run: |
-          python read_metadata.py > mydata/vars
+          python read_metadata.py mydata/merged.json > mydata/vars
           vars=$(cat mydata/vars)
           for var in $vars; do echo export $var; done > mydata/vars.sh
           for var in $vars; do echo $var >> $GITHUB_ENV; done
@@ -53,6 +59,11 @@ jobs:
           echo ${{ env.VALI_RECID }}
           docker run --rm -v $PWD/mydata:/code -u root cernopendata/cernopendata-client:0.3.0 download-files --recid ${{ env.VALI_RECID }} --protocol xrootd
 
+      - name: Compute cross-section
+        if: env.TYPE == "Simulated"
+        run: |
+          # run x-sec analyzer
+          
       - name: List data
         run: | 
           pwd

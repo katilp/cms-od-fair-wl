@@ -1,0 +1,12 @@
+{
+    "image": [
+        {
+          "name": "gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_7_6_7-slc6_amd64_gcc493",
+          "registry": "gitlab-cern"
+        },
+        {
+          "name": "docker.io/cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493",
+          "registry": "dockerhub"
+        }
+    ]
+}
